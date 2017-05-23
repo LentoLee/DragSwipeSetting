@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         final String filePath = getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "items.ser";
         Log.d(TAG, "file path : " + filePath);
 
+        long time = System.currentTimeMillis();
         FileOutputStream fout = null;
         ObjectOutputStream oos = null;
         try {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Log.d(TAG, "save items to File cost time = " + (System.currentTimeMillis() - time) + " ms");
         }
     }
 
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         }
         FileInputStream fis = null;
         ObjectInputStream ois = null;
+        long time = System.currentTimeMillis();
 
         try {
             fis = new FileInputStream(file);
@@ -108,6 +111,19 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+                if (ois != null) {
+                    ois.close();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "get items to File cost time = " + (System.currentTimeMillis() - time) + " ms");
         }
         return new ArrayList<>();
     }
