@@ -1,7 +1,6 @@
 package lento.me.dragsetting.drag;
 
 
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -36,23 +35,20 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         }
     }
 
-
-
     @Override
     public boolean isLongPressDragEnabled() {
         return false;
     }
 
     @Override
-    public boolean isItemViewSwipeEnabled() {
-        return false;
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
     }
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-        return makeMovementFlags(dragFlags, swipeFlags);
+        return makeMovementFlags(dragFlags, 0);
     }
 
     @Override
@@ -62,17 +58,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        mItemTouchHelperAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-    }
-
-    @Override
     public boolean canDropOver(RecyclerView recyclerView, RecyclerView.ViewHolder current, RecyclerView.ViewHolder target) {
        return mItemTouchHelperAdapter.canDropOver(current.getAdapterPosition(), target.getAdapterPosition());
     }
 
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-    }
 }

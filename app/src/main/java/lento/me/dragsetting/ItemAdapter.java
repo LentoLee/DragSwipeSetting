@@ -49,6 +49,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
         final Item item = mData.get(position);
+
+        Log.d(TAG, "onBindViewHolder : pos = " + position + ", item desc = " + item.desc + ", item order = " + item.order);
+
         if (item.viewType == Item.TYPE_ADDED || item.viewType == Item.TYPE_REMOVED) {
             final boolean isAdded = item.viewType == Item.TYPE_ADDED;
             holder.optBtn.setBackgroundResource(isAdded ? R.drawable.ic_remove_circle_black_24dp : R.drawable.ic_add_circle_black_24dp);
@@ -68,15 +71,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 holder.optBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        final int transX = Utils.dp2px(v.getContext(), 90);
-                        //method 1
-//                        holder.itemView.setTranslationX(-transX);//why not work?
-                        //method 2
-//                        holder.contentView.setTranslationX(-transX);
-//                        holder.removeView.setTranslationX(-transX);
-                        //method 3
+                        Log.i(TAG, "click - btn : pos = " + position);
                         holder.menuLayout.smoothExpand();
-
                     }
                 });
 
@@ -88,7 +84,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                         v.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                onItemDismiss(position);
+                                onItemClickRemove(position);
                             }
                         }, 200);//delay for better effect!
                     }
@@ -97,7 +93,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 holder.optBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onItemAdd(position);
+                        Log.i(TAG, "click + btn : pos = " + position);
+                        onItemClickAdd(position);
                     }
                 });
             }
@@ -117,10 +114,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onItemMove(int fromPos, int toPos) {
-        Collections.swap(mData, fromPos, toPos);
-        notifyItemMoved(fromPos, toPos);
-        //printData(mData);
+        final Item remove = mData.remove(fromPos);
+        mData.add(toPos, remove);
         resetOrder(mData);
+
+        notifyItemMoved(fromPos, toPos);
+        notifyItemChanged(fromPos, getItemCount());
         //printData(mData);
     }
 
@@ -128,8 +127,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Log.d(TAG, "-------begin to resetOrder---------");
         for (int i = 0; i < items.size(); i++) {
             final Item item = items.get(i);
-            Log.d(TAG, "i = " + i + ", item : desc = " + item.desc + ", order = " + item.order);
             item.order = i;
+            Log.d(TAG, "i = " + i + ", item : desc = " + item.desc + ", order = " + item.order);
         }
     }
 
@@ -140,22 +139,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
     }
 
-
-    /**
-     * 起个名字吧，跟下面这个组成一对。
-     *
-     * @param position
-     */
-    private void onItemAdd(int position) {
-        final int moreWidgetPos = findMoreWidgetPos();
+    private void onItemClickAdd(int position) {
+        final int headerPos = findHeaderPos();
+        Log.d(TAG, "onItemClickAdd : header pos = " + headerPos);
         Item addItem = mData.remove(position);
         addItem.viewType = Item.TYPE_ADDED;
-        mData.add(moreWidgetPos, addItem);
+        mData.add(headerPos, addItem);
         resetOrder(mData);
         notifyDataSetChanged();
     }
 
-    private int findMoreWidgetPos() {
+    private int findHeaderPos() {
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).viewType == Item.TYPE_MORE_WIDGET_HEADER) {
                 return i;
@@ -166,8 +160,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
 
-    @Override
-    public void onItemDismiss(int pos) {
+    public void onItemClickRemove(int pos) {
+        Log.d(TAG, "onItemClickRemove : pos = " + pos);
         final Item remove = mData.remove(pos);
         remove.viewType = Item.TYPE_REMOVED;
         mData.add(remove);

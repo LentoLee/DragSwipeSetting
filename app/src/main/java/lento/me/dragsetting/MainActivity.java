@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         Item item1 = new Item("Eren Yeager", 0, true, Item.TYPE_ADDED);
         Item item2 = new Item("Mikasa Ackerman", 1, false, Item.TYPE_ADDED);
         Item item3 = new Item("Armin Arlert", 2, true, Item.TYPE_ADDED);
-        Item header = new Item("Reiner Braun", 3, false, Item.TYPE_MORE_WIDGET_HEADER);
+        Item header = new Item("Investigations", 3, false, Item.TYPE_MORE_WIDGET_HEADER);
         Item item4 = new Item("Bertolt Hoover", 4, true, Item.TYPE_REMOVED);
         Item item5 = new Item("BAnnie Leonhart", 5, true, Item.TYPE_REMOVED);
         mItems.add(header);
