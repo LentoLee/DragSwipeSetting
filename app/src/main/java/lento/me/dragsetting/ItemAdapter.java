@@ -54,7 +54,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         if (item.viewType == Item.TYPE_ADDED || item.viewType == Item.TYPE_REMOVED) {
             final boolean isAdded = item.viewType == Item.TYPE_ADDED;
-            holder.optBtn.setBackgroundResource(isAdded ? R.drawable.ic_remove_circle_black_24dp : R.drawable.ic_add_circle_black_24dp);
+            holder.optBtn.setImageResource(isAdded ? R.drawable.ic_remove_circle_black_24dp : R.drawable.ic_add_circle_black_24dp);
             holder.optBtn.setVisibility(item.canOpt ? View.VISIBLE : View.INVISIBLE);
 
             holder.itemDesc.setText(item.desc);
