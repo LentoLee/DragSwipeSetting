@@ -1,4 +1,4 @@
-package lento.me.dragsetting;
+package lento.me.dragsetting.drag;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

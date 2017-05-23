@@ -9,6 +9,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import lento.me.dragsetting.drag.OnStartDragListener;
+import lento.me.dragsetting.drag.SimpleItemTouchHelperCallback;
+
 public class MainActivity extends AppCompatActivity implements OnStartDragListener {
     private static final String TAG = "MainActivity";
 

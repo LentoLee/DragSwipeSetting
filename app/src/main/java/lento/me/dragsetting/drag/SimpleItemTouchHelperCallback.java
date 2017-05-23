@@ -1,4 +1,4 @@
-package lento.me.dragsetting;
+package lento.me.dragsetting.drag;
 
 
 import android.graphics.Canvas;

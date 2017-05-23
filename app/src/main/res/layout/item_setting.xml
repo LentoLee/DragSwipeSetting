@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<lento.me.dragsetting.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<lento.me.dragsetting.swipe.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sml"
     android:layout_width="match_parent"
@@ -62,4 +62,4 @@
             android:layout_centerInParent="true"
             android:src="@drawable/ic_delete_black_24dp" />
     </RelativeLayout>
-</lento.me.dragsetting.SwipeMenuLayout>
+</lento.me.dragsetting.swipe.SwipeMenuLayout>

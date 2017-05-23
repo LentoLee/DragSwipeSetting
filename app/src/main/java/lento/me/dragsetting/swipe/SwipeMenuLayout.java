@@ -1,4 +1,4 @@
-package lento.me.dragsetting;
+package lento.me.dragsetting.swipe;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,6 +14,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+
+import lento.me.dragsetting.R;
 
 /**
  * 【Item侧滑删除菜单】
