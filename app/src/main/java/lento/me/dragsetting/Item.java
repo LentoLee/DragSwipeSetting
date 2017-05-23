@@ -1,14 +1,14 @@
 package lento.me.dragsetting;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 
 /**
  * Created by lento on 2017/5/22.
  */
 
-public class Item implements Parcelable, Comparable<Item> {
+public class Item implements Serializable, Comparable<Item> {
     public static final int TYPE_ADDED = 0;
     public static final int TYPE_MORE_WIDGET_HEADER = 1;
     public static final int TYPE_REMOVED = 2;
@@ -28,40 +28,6 @@ public class Item implements Parcelable, Comparable<Item> {
         this.order = order;
         this.canOpt = canOpt;
         this.viewType = viewType;
-    }
-
-
-    protected Item(Parcel in) {
-        desc = in.readString();
-        order = in.readInt();
-        canOpt = in.readByte() != 0;
-        viewType = in.readInt();
-    }
-
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(desc);
-        dest.writeInt(order);
-        dest.writeByte((byte) (canOpt ? 1 : 0));
-        dest.writeInt(viewType);
     }
 
     @Override
