@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class Item implements Serializable, Comparable<Item> {
     public static final int TYPE_ADDED = 0;
-    public static final int TYPE_MORE_WIDGET_HEADER = 1;
+    public static final int TYPE_REMOVED_HEADER = 1;
     public static final int TYPE_REMOVED = 2;
     String desc;
     Integer order;

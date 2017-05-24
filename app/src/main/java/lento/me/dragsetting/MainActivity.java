@@ -8,6 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +22,7 @@ import java.util.List;
 import lento.me.dragsetting.drag.OnStartDragListener;
 import lento.me.dragsetting.drag.SimpleItemTouchHelperCallback;
 
-public class MainActivity extends AppCompatActivity implements OnStartDragListener {
+public class MainActivity extends AppCompatActivity implements OnStartDragListener, IOptItemListener {
     private static final String TAG = "MainActivity";
 
     private RecyclerView mRecyclerView;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
     private ItemTouchHelper mItemTouchHelper;
 
     private final List<Item> mItems = new ArrayList<>();
-
+    private View mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         final SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(mItemAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        mEmptyView = findViewById(R.id.tv_empty);
+        mItemAdapter.setOptItemListener(this);
     }
 
 
@@ -149,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         Item item1 = new Item("Eren Yeager", 0, true, Item.TYPE_ADDED);
         Item item2 = new Item("Mikasa Ackerman", 1, false, Item.TYPE_ADDED);
         Item item3 = new Item("Armin Arlert", 2, true, Item.TYPE_ADDED);
-        Item header = new Item("Investigations", 3, false, Item.TYPE_MORE_WIDGET_HEADER);
+        Item header = new Item("Investigations", 3, false, Item.TYPE_REMOVED_HEADER);
         Item item4 = new Item("Bertolt Hoover", 4, true, Item.TYPE_REMOVED);
         Item item5 = new Item("BAnnie Leonhart", 5, true, Item.TYPE_REMOVED);
         mItems.add(header);
@@ -163,5 +167,10 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void showEmptyTips(boolean visible) {
+        mEmptyView.setVisibility(visible? View.VISIBLE : View.GONE);
     }
 }

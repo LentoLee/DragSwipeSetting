@@ -27,6 +27,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private List<Item> mData;
     private final OnStartDragListener mOnStartDragListener;
 
+    private IOptItemListener mOptItemListener;
+
     public ItemAdapter(@NonNull List<Item> data, OnStartDragListener startDragListener) {
         this.mData = data;
         Collections.sort(mData);
@@ -35,7 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == Item.TYPE_MORE_WIDGET_HEADER) {
+        if (viewType == Item.TYPE_REMOVED_HEADER) {
             return new ItemViewHolder(View.inflate(parent.getContext(), R.layout.item_setting_header, null));
         }
         return new ItemViewHolder(View.inflate(parent.getContext(), R.layout.item_setting, null));
@@ -147,11 +149,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         mData.add(headerPos, addItem);
         resetOrder(mData);
         notifyDataSetChanged();
+        showEmptyTipsIfNeed();
+    }
+
+    public void setOptItemListener(IOptItemListener listener) {
+        this.mOptItemListener = listener;
+    }
+
+
+    private void showEmptyTipsIfNeed() {
+        if (mOptItemListener == null) {
+            return;
+        }
+        final Item lastItem = mData.get(mData.size() - 1);
+        if (lastItem.viewType == Item.TYPE_REMOVED_HEADER) {
+            mOptItemListener.showEmptyTips(true);
+        } else {
+            mOptItemListener.showEmptyTips(false);
+        }
     }
 
     private int findHeaderPos() {
         for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).viewType == Item.TYPE_MORE_WIDGET_HEADER) {
+            if (mData.get(i).viewType == Item.TYPE_REMOVED_HEADER) {
                 return i;
             }
         }
@@ -167,6 +187,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         mData.add(remove);
         resetOrder(mData);
         notifyDataSetChanged();
+        showEmptyTipsIfNeed();
     }
 
     @Override
