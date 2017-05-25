@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 
 public class Item implements Serializable, Comparable<Item> {
+    private static final long serialVersionUID = 4056392726631386552L;
     public static final int TYPE_ADDED = 0;
     public static final int TYPE_REMOVED_HEADER = 1;
     public static final int TYPE_REMOVED = 2;
