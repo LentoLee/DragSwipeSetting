@@ -82,13 +82,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "click remove btn : position = " + position);
-                        holder.menuLayout.smoothClose();
-                        v.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                onItemClickRemove(position);
-                            }
-                        }, 200);//delay for better effect!
+                        holder.menuLayout.quickClose();
+                        onItemClickRemove(position);
                     }
                 });
             } else {
@@ -121,7 +116,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         resetOrder(mData);
 
         notifyItemMoved(fromPos, toPos);
-        notifyItemChanged(fromPos, getItemCount());
+        notifyItemRangeChanged(fromPos, toPos);
         //printData(mData);
     }
 
